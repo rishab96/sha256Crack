@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D97682781A05CDA700171E16 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D97682771A05CDA700171E16 /* main.cpp */; };
+		D976827F1A05CDB800171E16 /* sha256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D976827E1A05CDB800171E16 /* sha256.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		D97682741A05CDA700171E16 /* hash */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hash; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97682771A05CDA700171E16 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D976827E1A05CDB800171E16 /* sha256.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sha256.cpp; path = "../../../Downloads/hash-library/sha256.cpp"; sourceTree = "<group>"; };
+		D97682811A05CE5100171E16 /* sha256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sha256.h; path = "../../../Downloads/hash-library/sha256.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +60,8 @@
 		D97682761A05CDA700171E16 /* hash */ = {
 			isa = PBXGroup;
 			children = (
+				D976827E1A05CDB800171E16 /* sha256.cpp */,
+				D97682811A05CE5100171E16 /* sha256.h */,
 				D97682771A05CDA700171E16 /* main.cpp */,
 			);
 			path = hash;
@@ -118,6 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D976827F1A05CDB800171E16 /* sha256.cpp in Sources */,
 				D97682781A05CDA700171E16 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
