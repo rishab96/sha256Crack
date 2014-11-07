@@ -15,7 +15,8 @@
 #include <map>
 using namespace std;
 
-void generate(string &startx, string &endx);
+void generate(string &startx, string &endx, string);
+string wordToHex(string);
 bool crack(string sha, map<string, string> m );
 
 int main(int argc, const char * argv[]) {
@@ -23,25 +24,27 @@ int main(int argc, const char * argv[]) {
     
     string startx= "";
     string endx= "";
-    int count = 200000;
+    int count = 100000;
     
     SHA256 sha256;
     
-    /*ofstream fout("hashFinal10.txt", ios::app);
+    ofstream fout("hashNew.txt", ios::app);
     
     for (int i=0; i<count; i++) {
        
-          if(i%100 == 0)  cout<<i<<" "<<endl;
-        generate(startx, endx);
-      //  cout<<i<<endl;
+        if(i%100 == 0)
+            cout<<i<<" "<<endl;
+        
+        string s="";
+        
+        generate(startx, endx, s);
         fout<<startx<<endl<<endx<<endl;
         
-        //cout<<i;
-    }
-    */
+    } 
+    
    
   
-   ifstream fin("hashFinal10.txt");
+   /* fstream fin("hashNew.txt");
     string s1,s2;
     count = 0;
     
@@ -51,7 +54,7 @@ int main(int argc, const char * argv[]) {
         m.insert(pair<string,string>(s2,s1));
     }
     
-    for(int i= 0; i<100; i++) {
+    for(int i= 0; i<1; i++) {
    
 
     char c;
@@ -61,29 +64,27 @@ int main(int argc, const char * argv[]) {
         c= rand()%26 + 'a';
         a += c;
     }
-        
-      //  cout<<a<<endl; //sahami, anaika, jialin, mehran
-        
-        // a="rishab";
+       // a="anaika";
     
         if(crack(sha256(a), m )) count++;
-        else cout<<"Not found";
+        else {
+            cout<<"Not found";
+            generate(startx, endx, a);
+            //cout<<startx<<endx;
+            fout<<startx<<endl<<endx<<endl;
+        }
         cout<<endl;
     }
     
-    cout<<count;
-    
-   // cout<<"done";
+    cout<<count; */
     
 }
 
-void generate(string &startx, string &endx) {
+void generate(string &startx, string &endx, string word) {
     
     
 
     SHA256 sha256;
-    
-    //cout<<sha256("aaaaaaa");
   
     string chainEnd[500];
     string temp = "";
@@ -93,76 +94,39 @@ void generate(string &startx, string &endx) {
     int x;
     char c;
     
-    for (int m=0; m<6; m++) {
-        c= rand()%26 + 'a';
-        chainEnd[0] += c;
+    if (word+"" == "") {
+        for (int m=0; m<6; m++) {
+            c= rand()%26 + 'a';
+            chainEnd[0] += c;
+        }
+    
     }
     
-   // cout<<chainEnd[0]<<endl;
-    //chainEnd[0] = "aaaaaaaa";
-    //chainEnd[0] = "hvtlij";
-    //cout<<chainEnd[0]<<endl;
+    else
+        chainEnd[0] = word+"";
+    
     string sha = sha256(chainEnd[0]);
-    //
     
     int j = 0;
-   // cout<<"yeah"<<endl;
-    //cout<<chainEnd[0];
-    startx = sha;
+    startx = chainEnd[0];
     
     while (chainEnd[0] != temp1 && j<1000) {
-      //if (j==50000)
-         // cout<<temp1<<endl;
-       // cout<<temp1<<endl;
-       // if(j%10000)cout<<j<<endl;
         endx = temp1;
-        //cout<<"yeah";
+       // cout<<temp1<<endl;
         temp1 = "";
         
-      
-        
-       
-        
-        
         for (int i=0; i<60; i+=10) {
-           // temp = sha.substr(0,6);
             temp += sha[i];
-            //temp += sha[i+3];
             temp += sha[i+1];
             temp += sha[i+2];
             temp += sha[i+5];
             temp += sha[i+6];
-          
-            //temp += sha[i+7];
-           // temp += sha[i+2];
-          //  temp += sha[i+3];
-           // temp += sha[i+4];
-          //  temp += sha[i+5];
-            
-           
-           
-            
-            
-            //temp += endx[0];
-            //temp += endx[1];
-            //cout<<temp<<endl;
+
             stream<<temp;
             stream>>hex>>x;
             if(j>0)
                 x /= j;
-           // x+= endx[0];
-           // x+=endx[1];
-            //int y = endx[3] +1;
             
-        //    x= x%y;
-            //x%=53;
-           // cout<<x<<endl;
-            /*int y=0;
-            for(int i=0; i<4; i++) {
-                y+= x%10;
-                x=x/10;
-            } */
-          //  x=y;
             c = x%26 + 'a';
             temp1 += c;
             temp = "";
@@ -170,18 +134,6 @@ void generate(string &startx, string &endx) {
             stream.clear();
         }
         
-        //cout<<temp1<<endl;
-        
-        
-      //  if (sha=="4fbfe1e8e936db1e210ed68f3f193320c1007509cbfaf3b23349954db861614d")
-        //    cout<<j<<endl;
-         
-        
-        
-        //cout<<temp1<<endl;
-        /*if(j>0) {
-            chainEnd[j]=temp1;
-        } */
         if (j==10000) {
             chainEnd[1] = temp1;
         }
@@ -299,59 +251,14 @@ void generate(string &startx, string &endx) {
             break;
         }
         
-       // else if (temp1==chainEnd[15] && j != 150000) {
-         //   break;
-      //  }
-        
-        
-        
-     //   int x=false;
-       /* for(int i=1; i<j; i++)
-        {
-            if(chainEnd[i]==temp1) {
-                //cout<<"eeee";
-                x=true;
-                cout<<endl<<i<<endl;
-                break;
-                
-            }
-        }
-        
-        if(x)
-            break; */
-        
         sha = sha256(temp1);
         
         j++;
         
-        //2840 4370
-        //27387 3356 24031
-        //32858 8827
-        
-        
-        
     }
-    
-  //  if (j<100000) {
-      //  cout<<temp1<<endl<<endx<<endl<<j;
-        
-            //startx=sha256(temp1);
+
             endx=sha256(endx);
-    
-  //  cout<<j<<endl;
-        
-          //  cout<<endl<<j;
- //   }
-    
- /*   else {
-      //  cout<<"ERROR"<<endl;
-        startx="";
-        endx="";
-    } */
-   // cout<<startx<<endl<<endx<<endl;
-   // cout<<j;
-    
-   // return 0;
+ 
 }
 
 bool crack(string sha, map<string, string> m )
@@ -365,24 +272,16 @@ bool crack(string sha, map<string, string> m )
     char c;
     int j;
     
-  //  cout<<sha<<endl;
-    
     j=0;
-//    int l=0;
     
     for(int l=0; l<1000; l++) {
        
         int p,q,r;
         p=q=r=l;
-     //   if(l%100==0)cout<<l<<endl;
         j=0;
         string tempf="";
         int jprev = 0;
     a:
-       // if (tempf!="") {
-            
-         //   tempSha = tempf;
-        //}
         p=l;
         tempSha = sha;
         
@@ -398,10 +297,8 @@ bool crack(string sha, map<string, string> m )
             temp += tempSha[i+2];
             temp += tempSha[i+5];
             temp += tempSha[i+6];
-            //cout<<temp<<endl;
             stream<<temp;
             stream>>hex>>x;
-            // cout<<x<<endl;
             if(p!=0)
                 x/=p;
             c = x%26 + 'a';
@@ -410,48 +307,20 @@ bool crack(string sha, map<string, string> m )
             stream.clear();
         }
          p++;
-         
-        
-        //cout<<tempString<<endl;
         
         tempSha = sha256(tempString);
         
     }
-        //tempf=tempSha;
         tempString = "";
-        /*for (int i=0; i<60; i+=10) {
-            temp += tempSha[i];
-            temp += tempSha[i+1];
-            temp += tempSha[i+2];
-            temp += tempSha[i+5];
-            temp += tempSha[i+6];
-            //cout<<temp<<endl;
-            stream<<temp;
-            stream>>hex>>x;
-            // cout<<x<<endl;
-            x+=p;
-            c = x%26 + 'a';
-            tempString += c;
-            temp = "";
-            stream.clear();
-        }
-        tempf = sha256(tempString);
-        p++; */
-
-    
-    //cout<<j;
-    //cout<<j<<endl;
-   // cout<<tempSha<<endl;
+        
     string tempSha1 = tempSha;
     if(j<1000) {
         jprev=j;
-        //cout<<"In found section"<<endl;
-        tempSha = m[tempSha];
-        //cout<<tempSha<<endl;
-        temp="";
-        //string temp1 ="";
-        tempString = "";
-        q=0;
+       // tempSha = m[tempSha];
+
+        //temp="";
+        //tempString = "";
+       /* q=0;
         for (int i=0; i<60; i+=10) {
             
             temp += tempSha[i];
@@ -459,33 +328,29 @@ bool crack(string sha, map<string, string> m )
             temp += tempSha[i+2];
             temp += tempSha[i+5];
             temp += tempSha[i+6];
-            //cout<<temp<<endl;
+
             stream<<temp;
             stream>>hex>>x;
             if(q!=0)
                 x/=q;
-            // cout<<x<<endl;
+            
             c = x%26 + 'a';
             tempString += c;
             temp = "";
             
             stream.clear();
         }
-        q++;
-        r=q;
-        
-        //cout<<sha256(tempString)<<endl;
+        q++; */
+        tempString = m[tempSha];
+        tempSha = sha256 (tempString);
+        r=0;
         
         tempSha = sha256(tempString);
         
         
         temp="";
         int z=0;
-       // cout<<"yeah"<<endl;
-       // tempSha1 = tempSha;
-       // cout<<tempSha1<<endl;
         while (tempSha!=sha && z<1000) {
-            //cout<<z++<<endl;
             z++;
             tempString="";
             for (int i=0; i<60; i+=10) {
@@ -494,12 +359,10 @@ bool crack(string sha, map<string, string> m )
                 temp += tempSha[i+2];
                 temp += tempSha[i+5];
                 temp += tempSha[i+6];
-                //cout<<temp<<endl;
                 stream<<temp;
                 stream>>hex>>x;
-                // cout<<x<<endl;
-                
-                x/=r;
+                if(r!=0)
+                    x/=r;
                 c = x%26 + 'a';
                 tempString += c;
                 temp = "";
@@ -508,8 +371,7 @@ bool crack(string sha, map<string, string> m )
             }
             
             r++;
-            // cout<<tempString<<endl;
-    
+            
             tempSha = sha256(tempString);
             
             
@@ -521,14 +383,9 @@ bool crack(string sha, map<string, string> m )
         }
         
         else {
-            //cout<<j<<endl;
             goto a;
-           // cout<<"not found";
         }
     }
-         //else
-            // cout<<"not found";
-            //break;
         
        
         
@@ -536,12 +393,9 @@ bool crack(string sha, map<string, string> m )
         
  }
     return false;
-    cout<<"end";
+}
+
+string wordToHex(string s) {
     
-    
-  //  else
-    //    cout<<"not found1";
-    
-    string crack;
-    //return sha;
+    return s;
 }
