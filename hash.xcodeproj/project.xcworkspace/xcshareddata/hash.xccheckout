@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B8CCF821-94CA-4D24-B40C-9055D0E7933F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>hash</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>139D54CC15C47F9199559C664E236185558B8301</key>
+		<string>https://github.com/rishab96/sha256Crack.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>hash.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>139D54CC15C47F9199559C664E236185558B8301</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/rishab96/sha256Crack.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>139D54CC15C47F9199559C664E236185558B8301</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>139D54CC15C47F9199559C664E236185558B8301</string>
+			<key>IDESourceControlWCCName</key>
+			<string>hash</string>
+		</dict>
+	</array>
+</dict>
+</plist>

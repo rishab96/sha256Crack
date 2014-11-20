@@ -19,6 +19,8 @@ void generate(string &startx, string &endx, string);
 string wordToHex(string);
 bool crack(string sha, map<string, string> m );
 
+int chainLength = 4000; //1000 for hashNew 10000 for hashLong
+
 int main(int argc, const char * argv[]) {
     srand (time(0));
     
@@ -28,9 +30,9 @@ int main(int argc, const char * argv[]) {
     
     SHA256 sha256;
     
-    ofstream fout("hashNew.txt", ios::app);
-    
-    for (int i=0; i<count; i++) {
+    ofstream fout("hashFour.txt", ios::app);
+ 
+ /*  for (int i=0; i<count; i++) {
        
         if(i%100 == 0)
             cout<<i<<" "<<endl;
@@ -40,11 +42,12 @@ int main(int argc, const char * argv[]) {
         generate(startx, endx, s);
         fout<<startx<<endl<<endx<<endl;
         
-    } 
-    
-   
+    } */
   
-   /* fstream fin("hashNew.txt");
+  
+
+ x:
+    fstream fin("hashFour.txt"); //hashNew
     string s1,s2;
     count = 0;
     
@@ -53,31 +56,60 @@ int main(int argc, const char * argv[]) {
         fin>>s2;
         m.insert(pair<string,string>(s2,s1));
     }
+
     
     for(int i= 0; i<1; i++) {
-   
-
-    char c;
-    string a;
-    
-    for (int m=0; m<6; m++) {
-        c= rand()%26 + 'a';
-        a += c;
-    }
-       // a="anaika";
-    
-        if(crack(sha256(a), m )) count++;
+        char c;
+        string a;
+        
+        for (int m=0; m<6; m++) {
+            c= rand()%26 + 'a';
+            a += c;
+        }
+         a="fucker";
+        
+        if(crack(sha256(a), m )) {count++;}
         else {
-            cout<<"Not found";
+            cout<<"Not found"<<endl;
             generate(startx, endx, a);
-            //cout<<startx<<endx;
             fout<<startx<<endl<<endx<<endl;
         }
-        cout<<endl;
+            //cout<<" "<<i<<endl;
     }
     
-    cout<<count; */
+    cout<<count<<endl;
+    fin.close();
+   // if(count<90) goto x; */
     
+}
+
+string reduction (string temp1, string sha, int j) {
+    string temp = "";
+    stringstream stream;
+    int x ;
+    char c;
+    
+    for (int i=0; i<60; i+=10) {
+        temp += sha[i];
+        temp += sha[i+1];
+        temp += sha[i+2];
+        temp += sha[i+5];
+        temp += sha[i+6];
+        
+        stream<<temp;
+        stream>>hex>>x;
+        if(j>0)
+            x /= j;
+        
+        c = x%26 + 'a';
+        temp1 += c;
+        temp = "";
+        
+        stream.clear();
+    }
+    
+   // cout<<temp1<<endl;
+    return temp1;
 }
 
 void generate(string &startx, string &endx, string word) {
@@ -110,31 +142,12 @@ void generate(string &startx, string &endx, string word) {
     int j = 0;
     startx = chainEnd[0];
     
-    while (chainEnd[0] != temp1 && j<1000) {
+    while (chainEnd[0] != temp1 && j<chainLength) {
         endx = temp1;
-       // cout<<temp1<<endl;
         temp1 = "";
+        temp1 = reduction(temp1, sha, j);
         
-        for (int i=0; i<60; i+=10) {
-            temp += sha[i];
-            temp += sha[i+1];
-            temp += sha[i+2];
-            temp += sha[i+5];
-            temp += sha[i+6];
-
-            stream<<temp;
-            stream>>hex>>x;
-            if(j>0)
-                x /= j;
-            
-            c = x%26 + 'a';
-            temp1 += c;
-            temp = "";
-            
-            stream.clear();
-        }
-        
-        if (j==10000) {
+     /*   if (j==10000) {
             chainEnd[1] = temp1;
         }
     
@@ -249,7 +262,7 @@ void generate(string &startx, string &endx, string word) {
         
         else if (temp1==chainEnd[14] && j != 300000) {
             break;
-        }
+        } */
         
         sha = sha256(temp1);
         
@@ -268,13 +281,11 @@ bool crack(string sha, map<string, string> m )
     string tempString = "";
     stringstream stream;
     string temp = "";
-    int x;
-    char c;
     int j;
     
     j=0;
     
-    for(int l=0; l<1000; l++) {
+    for(int l=0; l<chainLength; l++) {
        
         int p,q,r;
         p=q=r=l;
@@ -287,11 +298,11 @@ bool crack(string sha, map<string, string> m )
         
         temp="";
         tempString = "";
-     for (j=0; j<1000; j++) {
+     for (j=l; j<chainLength; j++) {
         if(m.find(tempSha) != m.end() && j>jprev)
             break;
         tempString = "";
-        for (int i=0; i<60; i+=10) {
+        /*for (int i=0; i<60; i+=10) {
             temp += tempSha[i];
             temp += tempSha[i+1];
             temp += tempSha[i+2];
@@ -305,7 +316,9 @@ bool crack(string sha, map<string, string> m )
             tempString += c;
             temp = "";
             stream.clear();
-        }
+        } */
+         tempString = reduction(tempString, tempSha, p);
+
          p++;
         
         tempSha = sha256(tempString);
@@ -314,34 +327,9 @@ bool crack(string sha, map<string, string> m )
         tempString = "";
         
     string tempSha1 = tempSha;
-    if(j<1000) {
+    if(j<chainLength) {
         jprev=j;
-       // tempSha = m[tempSha];
-
-        //temp="";
-        //tempString = "";
-       /* q=0;
-        for (int i=0; i<60; i+=10) {
-            
-            temp += tempSha[i];
-            temp += tempSha[i+1];
-            temp += tempSha[i+2];
-            temp += tempSha[i+5];
-            temp += tempSha[i+6];
-
-            stream<<temp;
-            stream>>hex>>x;
-            if(q!=0)
-                x/=q;
-            
-            c = x%26 + 'a';
-            tempString += c;
-            temp = "";
-            
-            stream.clear();
-        }
-        q++; */
-        tempString = m[tempSha];
+               tempString = m[tempSha];
         tempSha = sha256 (tempString);
         r=0;
         
@@ -350,10 +338,10 @@ bool crack(string sha, map<string, string> m )
         
         temp="";
         int z=0;
-        while (tempSha!=sha && z<1000) {
+        while (tempSha!=sha && z<chainLength) {
             z++;
             tempString="";
-            for (int i=0; i<60; i+=10) {
+        /*    for (int i=0; i<60; i+=10) {
                 temp += tempSha[i];
                 temp += tempSha[i+1];
                 temp += tempSha[i+2];
@@ -368,7 +356,9 @@ bool crack(string sha, map<string, string> m )
                 temp = "";
                 
                 stream.clear();
-            }
+            } */
+            tempString = reduction(tempString, tempSha, r);
+
             
             r++;
             
@@ -376,8 +366,8 @@ bool crack(string sha, map<string, string> m )
             
             
         }
-        if (z<1000) {
-             cout<<l<<" "<<tempString;
+        if (z<chainLength) {
+            cout<<tempString<<" "<<z<<endl;
             return true;
              break;
         }
